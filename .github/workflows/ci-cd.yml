@@ -1,0 +1,52 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_requests:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubunto-latest
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      # Step 4: Run linting (flake8)
+      - name: Run linting (flake8)
+        run: |
+          flake8 .
+
+      # Step 5: Run tests with pytest
+      - name: Run tests
+        run: |
+          pytest
+
+      # Step 6: Build the Docker image
+      - name: Build Docker image
+        run: |
+          docker build -t glance .
+
+      # Step 7: Optionally push the Docker image to Docker Hub
+      - name: Push Docker image to Docker Hub
+        if: github.ref == 'refs/heads/main'  # Only push on main branch
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker tag glance ${{ secrets.DOCKER_USERNAME }}/glance:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/glance:latest
