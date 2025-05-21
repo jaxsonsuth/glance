@@ -28,6 +28,7 @@ jobs:
         run: |
           pip install -r requirements.txt
           pip install flake8
+          pip install pytest
 
       # Step 4: Run linting (flake8)
       - name: Run linting (flake8)
@@ -37,7 +38,7 @@ jobs:
       # Step 5: Run tests with pytest
       - name: Run tests
         run: |
-          pytest
+          pytest tests/
 
       # Step 6: Build the Docker image
       - name: Build Docker image
