@@ -27,6 +27,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
+          pip install flake8
 
       # Step 4: Run linting (flake8)
       - name: Run linting (flake8)
