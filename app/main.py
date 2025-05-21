@@ -15,8 +15,8 @@ async def summarize(input: TextInput):
     if len(input.text) < 50:  # You can adjust the threshold as needed
         # Return a message that repeats the text or just returns it as-is
         return {
-            "summary": ( 
-                f"Text too short to summarize effectively. Here is the content: "
+            "summary": (
+                f"Text too short to summarize. Here is the content: "
                 f"{input.text}"
             )
         }
